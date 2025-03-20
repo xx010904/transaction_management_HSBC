@@ -3,7 +3,7 @@ setlocal
 
 :: Set variables
 set PROJECT_NAME=transaction-management
-set JAR_FILE=target\%PROJECT_NAME%-0.0.1-SNAPSHOT.jar
+set JAR_FILE=target\%PROJECT_NAME%-0.0.1.jar
 set DOCKER_IMAGE_NAME=transaction-management:latest
 set LOG_FILE=run_docker.log
 
@@ -11,6 +11,7 @@ set LOG_FILE=run_docker.log
 echo Starting build process... > %LOG_FILE%
 
 :: Build Docker image
+:build_image
 echo Building Docker image... >> %LOG_FILE%
 docker build -t %DOCKER_IMAGE_NAME% . >> %LOG_FILE% 2>&1
 if %ERRORLEVEL% neq 0 (
@@ -19,11 +20,20 @@ if %ERRORLEVEL% neq 0 (
     exit /b 1
 )
 
+:: Check if JAR file exists
+if not exist %JAR_FILE% (
+    echo JAR file not found: %JAR_FILE% >> %LOG_FILE%
+    exit /b 1
+)
+
+:check_image
 :: Check if Docker image exists
 docker images | findstr %DOCKER_IMAGE_NAME%
 if %ERRORLEVEL% neq 0 (
-    echo Docker image not found: %DOCKER_IMAGE_NAME% >> %LOG_FILE%
-    exit /b 1
+    echo Docker image not found: %DOCKER_IMAGE_NAME%. >> %LOG_FILE%
+    echo Waiting for the image to be built... >> %LOG_FILE%
+    timeout /t 5 >nul
+    goto build_image
 )
 
 :: Run Docker container
