@@ -52,12 +52,15 @@ public class TransactionController {
     @PutMapping("/{id}")
     public ResponseEntity<Transaction> updateTransaction(
             @PathVariable Long id,
-            @RequestBody Transaction transactionDetails) {
+            @RequestBody Transaction transaction) {
         if (id <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID must be a positive number.");
         }
+        if (transaction == null || !isValidTransaction(transaction)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid transaction data.");
+        }
 
-        Transaction updatedTransaction = transactionService.updateTransaction(id, transactionDetails);
+        Transaction updatedTransaction = transactionService.updateTransaction(id, transaction);
         if (updatedTransaction == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found.");
         }
@@ -80,12 +83,21 @@ public class TransactionController {
         if (transaction.getName() == null || transaction.getName().trim().isEmpty()) {
             return false; // Name must not be empty
         }
-        // Check that amount is non-negative
-        if (transaction.getAmount() == null || transaction.getAmount() <= 0) {
-            return false; // Amount must not be null and must be greater than 0
+
+        // Check that amount is non-negative and has at most two decimal places
+        if (transaction.getAmount() == null || transaction.getAmount() < 0 ||
+                hasMoreThanTwoDecimalPlaces(transaction.getAmount())) {
+            return false; // Amount must not be null, must be non-negative, and must have at most two decimal places
         }
+
         // Check that type is in the enum
         return transaction.getType() != null && isValidType(transaction.getType()); // Type must be a valid enum value
+    }
+
+    private boolean hasMoreThanTwoDecimalPlaces(Double amount) {
+        String amountString = String.valueOf(amount);
+        int decimalIndex = amountString.indexOf(".");
+        return decimalIndex != -1 && (amountString.length() - decimalIndex - 1) > 2;
     }
 
     private boolean isValidType(TransactionType type) {

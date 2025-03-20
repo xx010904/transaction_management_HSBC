@@ -50,7 +50,7 @@
     <tr th:each="transaction : ${transactions}">
         <td th:text="${transaction.id}"></td>
         <td th:text="${transaction.name}"></td>
-        <td th:text="${transaction.amount}"></td>
+        <td th:text="${#numbers.formatDecimal(transaction.amount, 1, 2)}"></td>
         <td th:text="${transaction.type}"></td>
         <td>
             <a th:href="@{/transactions/edit/{id}(id=${transaction.id})}">Edit</a>
