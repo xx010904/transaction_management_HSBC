@@ -9,18 +9,16 @@
 
 ## Build the Project Using Maven (Without Docker)
 
-1. **Steps**:
+1. **Prepare Build Steps**:
    - Ensure JDK 21 and Maven are installed.
    - In the project root directory, execute the following command:
 
      ```bash
      build.bat
      ```
-
-2. **Logs**:
    - The build process log will be output to the `build.log` file in the same directory.
 
-3. **Run the Project**:
+2. **Run the Project**:
    - In the project root directory, execute the following command to start the project:
    - The log will be output to the `run.log` file in the same directory.
 
@@ -28,7 +26,7 @@
      run.bat
      ```
 
-4. **Access the Project**:
+3. **Access the Project**:
    - After starting, visit the following URL to view the transaction records:
 
      ```
@@ -39,18 +37,16 @@
 
 ## Build and Run the Project Using Docker
 
-1. **Steps**:
+1. **Prepare Build Steps**:
    - Ensure Docker is installed.
    - In the project root directory, execute the following command:
 
      ```bash
      build_docker.bat
      ```
-
-2. **Logs**:
    - The build process log will be output to the `build_docker.log` file in the same directory.
 
-3. **Run the Project**:
+2. **Run the Project**:
    - In the project root directory, execute the following command to start the project:
    - The log will be output to the `run_docker.log` file in the same directory.
 
@@ -58,7 +54,7 @@
      run_docker.bat
      ```
 
-4. **Access the Project**:
+3. **Access the Project**:
    - After starting, visit the following URL to view the transaction records:
 
      ```
@@ -83,18 +79,16 @@
 
 ## 使用 Maven 构建项目（不使用 Docker）
 
-1. **步骤**：
+1. **准备构建步骤**：
     - 确保已安装 JDK 21 和 Maven。
     - 在项目根目录下，执行以下命令：
 
       ```bash
       build.bat
       ```
-
-2. **日志**：
     - 构建过程的日志会输出到同目录下的 `build.log` 文件中。
 
-3. **运行项目**：
+2. **运行项目**：
     - 在项目根目录下，执行以下命令启动项目：
     - 日志会输出到同目录下的 `run.log` 文件中。
 
@@ -102,7 +96,7 @@
       run.bat
       ```
 
-4. **访问项目**：
+3. **访问项目**：
     - 启动后，访问以下 URL 来查看交易记录：
 
       ```
@@ -113,18 +107,16 @@
 
 ## 使用 Docker 构建和运行项目
 
-1. **步骤**：
+1. **准备构建步骤**：
     - 确保已安装 Docker。
     - 在项目根目录下，执行以下命令：
 
       ```bash
       build_docker.bat
       ```
-
-2. **日志**：
     - 构建过程的日志会输出到同目录下的 `build_docker.log` 文件中。
 
-3. **运行项目**：
+2. **运行项目**：
     - 在项目根目录下，执行以下命令启动项目：
     - 日志会输出到同目录下的 `run_docker.log` 文件中。
 
@@ -132,7 +124,7 @@
       run_docker.bat
       ```
 
-4. **访问项目**：
+3. **访问项目**：
     - 启动后，访问以下 URL 来查看交易记录：
 
       ```
