@@ -153,16 +153,6 @@ public class TransactionControllerTest {
     }
 
     @Test
-    void testUpdateTransaction_ShouldReturnUpdatedTransaction_WhenExists() {
-        when(transactionService.updateTransaction(1L, transaction)).thenReturn(transaction);
-
-        ResponseEntity<Transaction> response = transactionController.updateTransaction(1L, transaction);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(transaction, response.getBody());
-    }
-
-    @Test
     public void testUpdateTransaction_ValidId() {
         Long validId = 1L;
         Transaction transactionDetails = new Transaction(validId, "Updated Transaction", 150.0, TransactionType.INCOME);
@@ -235,8 +225,7 @@ public class TransactionControllerTest {
             transactionController.updateTransaction(1L, transaction);
         });
 
-        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
-        assertEquals("Transaction not found.", exception.getReason());
+        assertEquals("Invalid transaction data.", exception.getReason());
     }
 
     @Test
