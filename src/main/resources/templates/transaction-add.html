@@ -6,14 +6,24 @@
 <body>
 <h1>Add Transaction</h1>
 <form action="#" th:action="@{/transactions/new}" th:object="${transaction}" method="post">
-    <label>Description:</label>
-    <input type="text" th:field="*{description}" required/>
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required/>
     <br/>
+
     <label>Amount:</label>
     <input type="number" th:field="*{amount}" required/>
     <br/>
+
+    <label>Type:</label>
+    <select th:field="*{type}" required>
+        <option th:each="type : ${T(com.xjs.transactionmanagement.entity.TransactionType).values()}"
+                th:value="${type}"
+                th:text="${type}"></option>
+    </select>
+
+    <br/>
     <button type="submit">Add Transaction</button>
 </form>
-<a href="/transactions">Back to List</a>
+<button onclick="window.location.href='/transactions';">Back to List</button>
 </body>
 </html>
