@@ -13,8 +13,14 @@ set LOG_FILE=%PROJECT_DIR%\build.log
 :: Clear the log file
 echo. > "%LOG_FILE%"
 
-:: Specify the path to Maven
-set MAVEN_PATH="C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.4.1\plugins\maven\lib\maven3\bin\mvn.cmd"
+:: Get Maven path from environment variable
+set MAVEN_PATH=%MAVEN_HOME%\bin\mvn.cmd
+
+:: Check if MAVEN_PATH exists, if not use hard-coded path
+if not exist "%MAVEN_PATH%" (
+    set MAVEN_PATH="C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.4.1\plugins\maven\lib\maven3\bin\mvn.cmd"
+)
+
 :: Package the project
 echo Packaging the project... >> "%LOG_FILE%"
 

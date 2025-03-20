@@ -17,14 +17,13 @@ import java.util.List;
 @RequestMapping("/transactions")
 public class TransactionController {
 
-    private final int PAGE_SIZE = 10; // 每页显示的记录数
+    private final int PAGE_SIZE = 10; // Number of records displayed per page
 
     private final TransactionService transactionService;
 
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
@@ -77,36 +76,28 @@ public class TransactionController {
     }
 
     private boolean isValidTransaction(Transaction transaction) {
-        // 检查 name 是否非空
+        // Check that name is not empty
         if (transaction.getName() == null || transaction.getName().trim().isEmpty()) {
-            return false; // name 不能为空
+            return false; // Name must not be empty
         }
-        // 检查 amount 是否非负
+        // Check that amount is non-negative
         if (transaction.getAmount() == null || transaction.getAmount() <= 0) {
-            return false; // amount 不能为空且必须大于 0
+            return false; // Amount must not be null and must be greater than 0
         }
-        // 检查 type 是否在枚举里面
-        return transaction.getType() != null && isValidType(transaction.getType()); // type 必须是有效的枚举值
+        // Check that type is in the enum
+        return transaction.getType() != null && isValidType(transaction.getType()); // Type must be a valid enum value
     }
 
     private boolean isValidType(TransactionType type) {
         for (TransactionType t : TransactionType.values()) {
             if (t == type) {
-                return true; // 找到匹配的类型
+                return true; // Found a matching type
             }
         }
-        return false; // 没有匹配的类型
+        return false; // No matching type found
     }
 
-
-    // below is for pages
-//    @GetMapping
-//    public String getAllTransactionsPage(Model model) {
-//        List<Transaction> transactions = transactionService.getAllTransactions();
-//        model.addAttribute("transactions", transactions);
-//        return "transaction-list"; // 返回交易列表模板
-//    }
-
+    // Below is for pages
     @GetMapping
     public String listTransactionsPage(@RequestParam(defaultValue = "0") int page, Model model) {
         List<Transaction> pagedTransactions = transactionService.findPaginated(page);
@@ -116,13 +107,13 @@ public class TransactionController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
 
-        return "transaction-list"; // 你的 HTML 模板文件名
+        return "transaction-list"; // Your HTML template file name
     }
 
     @GetMapping("/new")
     public String showCreateTransactionFormPage(Model model) {
         model.addAttribute("transaction", new Transaction());
-        return "transaction-add"; // 创建页面
+        return "transaction-add"; // Create page
     }
 
     @PostMapping("/new")
@@ -132,14 +123,14 @@ public class TransactionController {
         }
 
         transactionService.createTransaction(transaction);
-        return "redirect:/transactions"; // 创建后重定向到交易列表
+        return "redirect:/transactions"; // Redirect to transaction list after creation
     }
 
     @GetMapping("/edit/{id}")
     public String showEditTransactionFormPage(@PathVariable Long id, Model model) {
         Transaction transaction = transactionService.getTransactionById(id);
         model.addAttribute("transaction", transaction);
-        return "transaction-edit"; // 返回新的编辑表单模板
+        return "transaction-edit"; // Return new edit form template
     }
 
     @PutMapping("/edit/{id}")
@@ -151,7 +142,7 @@ public class TransactionController {
         }
 
         Transaction updatedTransaction = transactionService.updateTransaction(id, transaction);
-        return "redirect:/transactions"; // 创建后重定向到交易列表
+        return "redirect:/transactions"; // Redirect to transaction list after update
     }
 
     @DeleteMapping("/delete/{id}")
@@ -160,6 +151,6 @@ public class TransactionController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID must be a positive number.");
         }
         transactionService.deleteTransaction(id);
-        return "redirect:/transactions"; // 创建后重定向到交易列表
+        return "redirect:/transactions"; // Redirect to transaction list after deletion
     }
 }

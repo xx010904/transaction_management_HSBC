@@ -9,13 +9,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-
 @Service
 public class TransactionService {
 
     private final InMemoryTransactionRepository transactionRepository;
 
-    private final int PAGE_SIZE = 10; // 每页显示的记录数
+    private final int PAGE_SIZE = 10; // Number of records displayed per page
 
     public TransactionService(InMemoryTransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
@@ -35,7 +34,7 @@ public class TransactionService {
 
     // Create
     public Transaction createTransaction(Transaction transaction) {
-        // 检查是否已存在相同的交易
+        // Check if a transaction with the same ID or name already exists
         if (transactionRepository.existsById(transaction.getId())
                 || transactionRepository.existsByName(transaction.getName())) {
             throw new ResponseStatusException(HttpStatus.OK, ErrorCode.TRANSACTION_ALREADY_EXISTS.getMessage());
@@ -55,17 +54,17 @@ public class TransactionService {
 
     // Update
     public Transaction updateTransaction(Long id, Transaction transactionDetails) {
-        // 检查是否存在
+        // Check if the transaction exists
         Transaction existingTransaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.OK, ErrorCode.TRANSACTION_NOT_FOUND.getMessage()));
 
-        // 检查是否存在同名的交易，但排除当前交易
+        // Check if a transaction with the same name exists, excluding the current transaction
         if (transactionRepository.existsByName(transactionDetails.getName()) &&
                 !existingTransaction.getName().equals(transactionDetails.getName())) {
             throw new ResponseStatusException(HttpStatus.OK, ErrorCode.TRANSACTION_ALREADY_EXISTS.getMessage());
         }
 
-        // 更新交易信息
+        // Update transaction information
         existingTransaction.setAmount(transactionDetails.getAmount());
         existingTransaction.setName(transactionDetails.getName());
         existingTransaction.setType(transactionDetails.getType());
@@ -75,12 +74,10 @@ public class TransactionService {
 
     // Delete
     public void deleteTransaction(Long id) {
-        // 检查是否存在
+        // Check if the transaction exists
         if (!transactionRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.OK, ErrorCode.TRANSACTION_NOT_FOUND.getMessage());
         }
         transactionRepository.deleteById(id);
     }
-
-
 }

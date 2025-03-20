@@ -1,46 +1,51 @@
 @echo off
 setlocal
 
-:: 设置变量
+:: Set variables
 set PROJECT_NAME=transaction-management
 set JAR_FILE=target\%PROJECT_NAME%-0.0.1.jar
 set DOCKER_IMAGE_NAME=transaction-management:latest
 set LOG_FILE=build_docker.log
 
-:: 清空日志文件
+:: Clear the log file
 echo Starting build process... > %LOG_FILE%
 
-:: Specify the path to Maven
-set MAVEN_PATH="C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.4.1\plugins\maven\lib\maven3\bin\mvn.cmd"
+:: Get Maven path from environment variable
+set MAVEN_PATH=%MAVEN_HOME%\bin\mvn.cmd
 
-:: 构建项目
+:: Check if MAVEN_PATH exists, if not use hard-coded path
+if not exist "%MAVEN_PATH%" (
+    set MAVEN_PATH="C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.4.1\plugins\maven\lib\maven3\bin\mvn.cmd"
+)
+
+:: Package the project
 echo Building the project... >> %LOG_FILE%
 %MAVEN_PATH% clean package >> %LOG_FILE% 2>&1
 if %ERRORLEVEL% neq 0 (
     echo Maven build failed. >> %LOG_FILE%
 )
 
-:: 检查 JAR 文件是否存在
+:: Check if packaging was successful
 if not exist "%JAR_FILE%" (
     echo JAR file not found: %JAR_FILE% >> %LOG_FILE%
 )
 
-:: 创建 Dockerfile
+:: Create Dockerfile
 echo Creating Dockerfile... >> %LOG_FILE%
 (
-    echo # 使用 OpenJDK 21 作为基础镜像
+    echo # Use OpenJDK 21 as base image
     echo FROM openjdk:21-jdk-slim
     echo.
-    echo # 定义工作目录
+    echo # Define the working directory
     echo WORKDIR /app
     echo.
-    echo # 将 Maven 构建的 jar 文件复制到容器中
+    echo # Copy the Maven built jar file into the container
     echo COPY target/%PROJECT_NAME%-0.0.1.jar app.jar
     echo.
-    echo # 暴露应用运行的端口
+    echo # Expose the port the app runs on
     echo EXPOSE 8080
     echo.
-    echo # 定义容器启动时的命令
+    echo # Define the command to run the container
     echo ENTRYPOINT ["java", "-jar", "app.jar"]
 ) > Dockerfile
 

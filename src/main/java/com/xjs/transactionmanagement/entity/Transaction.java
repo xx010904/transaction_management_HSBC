@@ -6,20 +6,17 @@ public class Transaction {
     private Long id;
     private String name;
     private Double amount;
-    private TransactionType type; // 使用枚举类型
+    private TransactionType type;
 
-    // 默认构造方法
     public Transaction() {}
 
-    // 带参数的构造方法
     public Transaction(Long id, String name, Double amount, TransactionType type) {
         this.id = id;
         this.name = name;
         this.amount = amount;
-        this.type = type; // 初始化 type
+        this.type = type;
     }
 
-    // Getters 和 Setters
     public Long getId() {
         return id;
     }

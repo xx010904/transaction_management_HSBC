@@ -1,3 +1,77 @@
+# Project Run Instructions
+
+## Environment Requirements
+
+1. **Local Environment**:
+   - Install JDK 21
+   - Install Maven
+   - Install Docker (if using Docker)
+
+## Build the Project Using Maven (Without Docker)
+
+1. **Steps**:
+   - Ensure JDK 21 and Maven are installed.
+   - In the project root directory, execute the following command:
+
+     ```bash
+     build.bat
+     ```
+
+2. **Logs**:
+   - The build process log will be output to the `build.log` file in the same directory.
+
+3. **Run the Project**:
+   - In the project root directory, execute the following command to start the project:
+   - The log will be output to the `run.log` file in the same directory.
+
+     ```bash
+     run.bat
+     ```
+
+4. **Access the Project**:
+   - After starting, visit the following URL to view the transaction records:
+
+     ```
+     http://localhost:8080/transactions
+     ```
+
+---
+
+## Build and Run the Project Using Docker
+
+1. **Steps**:
+   - Ensure Docker is installed.
+   - In the project root directory, execute the following command:
+
+     ```bash
+     build_docker.bat
+     ```
+
+2. **Logs**:
+   - The build process log will be output to the `build_docker.log` file in the same directory.
+
+3. **Run the Project**:
+   - In the project root directory, execute the following command to start the project:
+   - The log will be output to the `run_docker.log` file in the same directory.
+
+     ```bash
+     run_docker.bat
+     ```
+
+4. **Access the Project**:
+   - After starting, visit the following URL to view the transaction records:
+
+     ```
+     http://localhost:8080/transactions
+     ```
+
+---
+
+## Notes
+
+- Ensure that the environment variables for Maven and Docker are correctly configured to use the `mvn` and `docker` commands directly in the command line.
+- If you encounter any issues during the build or run process, please check the corresponding log files for more information.
+
 # 项目运行说明
 
 ## 环境要求
