@@ -9,6 +9,7 @@ set LOG_FILE=build_docker.log
 
 :: Clear the log file
 echo Starting build process... > %LOG_FILE%
+echo Starting build process...
 
 :: Get Maven path from environment variable
 set MAVEN_PATH=%MAVEN_HOME%\bin\mvn.cmd
@@ -20,18 +21,24 @@ if not exist "%MAVEN_PATH%" (
 
 :: Package the project
 echo Building the project... >> %LOG_FILE%
+echo Building the project...
 %MAVEN_PATH% clean package >> %LOG_FILE% 2>&1
 if %ERRORLEVEL% neq 0 (
     echo Maven build failed. >> %LOG_FILE%
+    echo Maven build failed.
+    exit /b 1
 )
 
 :: Check if packaging was successful
 if not exist "%JAR_FILE%" (
     echo JAR file not found: %JAR_FILE% >> %LOG_FILE%
+    echo JAR file not found: %JAR_FILE%
+    exit /b 1
 )
 
 :: Create Dockerfile
 echo Creating Dockerfile... >> %LOG_FILE%
+echo Creating Dockerfile...
 (
     echo # Use OpenJDK 21 as base image
     echo FROM openjdk:21-jdk-slim
@@ -50,4 +57,6 @@ echo Creating Dockerfile... >> %LOG_FILE%
 ) > Dockerfile
 
 echo Done. >> %LOG_FILE%
+echo Done.
+
 endlocal

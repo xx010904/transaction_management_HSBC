@@ -23,15 +23,16 @@ if not exist "%MAVEN_PATH%" (
 
 :: Package the project
 echo Packaging the project... >> "%LOG_FILE%"
+echo Packaging the project...
 
 echo Before Maven command >> "%LOG_FILE%"
 %MAVEN_PATH% clean package -DskipTests >> "%LOG_FILE%" 2>&1
 echo After Maven command >> "%LOG_FILE%"
 
-
 :: Check if packaging was successful
 if ERRORLEVEL 1 (
     echo Packaging failed. Please check the error messages. >> "%LOG_FILE%"
+    echo Packaging failed. Please check the error messages.
     exit /b 1
 )
 
@@ -41,7 +42,11 @@ for /f "delims=" %%i in ('dir /b /s "%PROJECT_DIR%\target\%JAR_NAME%"') do set J
 :: Check if the JAR file exists
 if not exist "%JAR_PATH%" (
     echo JAR file not found. Please ensure packaging was successful. >> "%LOG_FILE%"
+    echo JAR file not found. Please ensure packaging was successful.
     exit /b 1
 )
+
+echo JAR file found at: %JAR_PATH% >> "%LOG_FILE%"
+echo JAR file found at: %JAR_PATH%
 
 endlocal
