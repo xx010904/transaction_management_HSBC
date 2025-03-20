@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Transaction</title>
+</head>
+<body>
+<h1>Edit Transaction</h1>
+<form th:action="@{/transactions/edit/{id}(id=${transaction.id})}" method="post">
+    <input type="hidden" name="_method" value="put"/>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" th:value="${transaction.description}" required/>
+
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" th:value="${transaction.amount}" required/>
+
+    <button type="submit">Update Transaction</button>
+</form>
+<a href="/transactions">Back to List</a>
+</body>
+</html>
